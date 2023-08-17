@@ -1,0 +1,11 @@
+:root {
+  --color-default: #000000;
+  --color-green: #1D4339;
+  --color-gold: #D7A13B;
+  --color-sage: #D4E2DD;
+  --color-gray: #E9F0EE;
+  --color-white: #FFFFFF;
+  
+  --font-family-default: "Public Sans", sans-serif;
+  --font-family-alt: "MollieGlaston", sans-serif;
+}

@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Public Sans";
+  src: local("Public Sans"), url("/fonts/PublicSans.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MollieGlaston";
+  src: local("MollieGlaston"), url("/fonts/MollieGlaston.ttf") format("truetype");
+  font-display: swap;
+}
