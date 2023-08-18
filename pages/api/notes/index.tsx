@@ -51,6 +51,7 @@ async function createNote(
       title: req.body.title,
       content: req.body.content,
       created_at: new Date().toISOString(),
+      last_updated_at: new Date().toISOString(),
     };
 
     await notesCollection.insertOne(note);
