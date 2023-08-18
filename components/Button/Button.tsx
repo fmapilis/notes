@@ -28,9 +28,9 @@ const Button = ({
         {
           "opacity-50 cursor-not-allowed": disabled,
         },
-        className,
+        className
       ),
-    [className, disabled],
+    [className, disabled]
   );
 
   if (href) {

@@ -14,9 +14,10 @@ const Spinner = ({
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
+    role="progressbar"
   >
     <g className="spinner">
-      <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+      <circle cx="12" cy="12" r="9.5" fill="none" strokeWidth="3"></circle>
     </g>
     <style jsx>{`
       svg {

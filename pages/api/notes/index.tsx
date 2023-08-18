@@ -6,7 +6,7 @@ import clientPromise from "@/lib/mongodb";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
   if (!session) {
@@ -24,7 +24,7 @@ export default async function handler(
 async function createNote(
   session: Session,
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   try {
     if (!req.body.content || !req.body.title) {
