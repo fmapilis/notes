@@ -12,7 +12,11 @@ import { EditorComponent, Remirror, useRemirror } from "@remirror/react";
 import EditorToolbar from "./EditorToolbar";
 import SaveButton from "./SaveButton";
 
-const TextEditor = () => {
+const TextEditor = ({
+  onSave,
+}: {
+  onSave: (title: string, content: string) => Promise<void>;
+}) => {
   const [title, setTitle] = useState("");
   const { manager, state } = useRemirror({
     extensions: () => [
@@ -50,7 +54,7 @@ const TextEditor = () => {
           <EditorToolbar />
           <EditorComponent />
         </div>
-        <SaveButton title={title} />
+        <SaveButton title={title} onSave={onSave} />
         <style jsx global>
           {`
             .remirror-editor-wrapper {
