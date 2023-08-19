@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import "./font-face.css";
+@import "./prose.css";
 @import "./variables.css";
 
 body {

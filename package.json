@@ -30,14 +30,9 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
-    "remark": "^14.0.3",
-    "remark-mdx": "^2.3.0",
-    "remirror": "^2.0.36",
-    "swr": "^2.2.1"
+    "remirror": "^2.0.36"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.4",
-    "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

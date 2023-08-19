@@ -50,7 +50,7 @@ const TextEditor = ({
         initialContent={state}
         placeholder="Write something about today"
       >
-        <div className="h-[calc(100%-169px)] grow md:px-8 md:py-8 md:shadow-sm md:border md:border-sage md:rounded-xl">
+        <div className="h-[calc(100%-169px)] grow md:px-8 md:py-8 md:shadow-sm md:border md:border-sage md:rounded-xl prose">
           <EditorToolbar />
           <EditorComponent />
         </div>
@@ -68,20 +68,6 @@ const TextEditor = ({
               overflow-y: auto;
               resize: none;
               height: 100%;
-            }
-
-            .remirror-editor h1 {
-              font-size: 2rem;
-              font-weight: 900;
-              margin-bottom: 1.25rem;
-              font-family: var(--font-family-alt);
-              border-bottom: solid 1px var(--color-sage);
-            }
-
-            .remirror-editor h2 {
-              font-size: 1.5rem;
-              font-family: var(--font-family-alt);
-              margin-bottom: 0.5rem;
             }
           `}
         </style>

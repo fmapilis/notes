@@ -11,6 +11,8 @@ const Button = ({
   href,
   loading,
   onClick,
+  size = "large",
+  variant = "primary",
 }: {
   children: ReactNode;
   className?: string;
@@ -20,17 +22,23 @@ const Button = ({
   onClick?: MouseEventHandler<
     HTMLButtonElement | HTMLAnchorElement | HTMLDivElement
   >;
+  size?: "large" | "small";
+  variant?: "primary" | "secondary";
 }) => {
   const classes = useMemo(
     () =>
       cx(
-        "flex items-center px-16 py-3 text-lg font-semibold rounded-xl bg-green text-white text-center w-fit",
+        "flex items-center font-semibold rounded-xl text-center w-fit",
         {
+          "px-12 py-2 text-lg border-4": size === "large",
+          "px-6 py-1 text-base border-2": size === "small",
+          "bg-green text-white border-transparent": variant === "primary",
+          "bg-white text-green border-green": variant === "secondary",
           "opacity-50 cursor-not-allowed": disabled,
         },
         className
       ),
-    [className, disabled]
+    [className, disabled, size, variant]
   );
 
   if (href) {
