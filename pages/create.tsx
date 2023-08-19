@@ -2,12 +2,15 @@ import { useCallback } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const TextEditor = dynamic(() => import("@/components/TextEditor"), {
   ssr: false,
 });
 
 const CreateNotePage = () => {
+  useSession({ required: true });
+
   const router = useRouter();
 
   const handleSaveNote = useCallback(
@@ -21,6 +24,11 @@ const CreateNotePage = () => {
           body: JSON.stringify({ title, content: markdown }),
         });
         const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
         router.push(`/notes/${data._id}`);
       } catch (e) {
         alert("There was an unexpected issue saving your note");
@@ -39,7 +47,5 @@ const CreateNotePage = () => {
     </div>
   );
 };
-
-CreateNotePage.requireSession = true;
 
 export default CreateNotePage;

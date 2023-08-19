@@ -6,14 +6,9 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
 import Layout from "@/components/Layout";
-import Auth from "@/components/Auth";
-
-type Page<P = {}, IP = P> = NextPage<P, IP> & {
-  requireSession?: boolean;
-};
 
 type NotesAppProps<P = {}> = AppProps<P> & {
-  Component: Page<P>;
+  Component: NextPage<P>;
 };
 
 const App = ({
@@ -23,13 +18,7 @@ const App = ({
   return (
     <SessionProvider session={session}>
       <Layout>
-        {Component.requireSession ? (
-          <Auth>
-            <Component {...pageProps} />
-          </Auth>
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <Component {...pageProps} />
       </Layout>
     </SessionProvider>
   );

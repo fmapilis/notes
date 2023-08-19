@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api//auth/[...nextauth]";
+
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import clientPromise from "@/lib/mongodb";
+import type Note from "@/types/Note";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,7 +29,8 @@ async function createNote(
   res: NextApiResponse
 ) {
   try {
-    if (!req.body.content || !req.body.title) {
+    const { title, content } = req.body;
+    if (!title || !content) {
       res
         .status(401)
         .json({ error: "Bad Request - Missing notes content or title" });
@@ -46,12 +49,14 @@ async function createNote(
 
     const notesCollection = client.db(process.env.DB_NAME).collection("notes");
 
-    const note = {
+    const note: Omit<Note, "_id"> = {
       user_id: user._id,
-      title: req.body.title,
-      content: req.body.content,
+      title,
+      content,
       created_at: new Date().toISOString(),
       last_updated_at: new Date().toISOString(),
+      is_deleted: false,
+      deleted_at: null,
     };
 
     await notesCollection.insertOne(note);
