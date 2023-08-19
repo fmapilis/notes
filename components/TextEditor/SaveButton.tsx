@@ -1,5 +1,4 @@
 import { useHelpers } from "@remirror/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Button from "@/components/Button";
@@ -16,7 +15,6 @@ const SaveButton = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const { getMarkdown } = useHelpers();
-  const router = useRouter();
 
   const handleClick = async () => {
     setLoading(true);
@@ -25,9 +23,11 @@ const SaveButton = ({
 
       if (!title?.trim()) {
         alert("Please enter a title for your note");
+        setLoading(false);
         return;
       } else if (!markdown?.trim()) {
         alert("Please enter some content for your note");
+        setLoading(false);
         return;
       }
       await onSave(title, markdown);
