@@ -16,6 +16,7 @@ const ViewNotePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const {
+    push,
     query: { noteId },
   } = useRouter();
   const lastUpdatedAt = useMemo(
@@ -46,7 +47,29 @@ const ViewNotePage = () => {
     }
   }, [noteId]);
 
-  const handleDelete = useCallback(async () => {}, []);
+  const handleDelete = useCallback(async () => {
+    if (noteId) {
+      try {
+        if (!confirm("Are you sure you want to delete this note?")) {
+          return;
+        }
+
+        const response = await fetch(`/api/notes/${noteId}`, {
+          method: "DELETE",
+        });
+        const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        push("/");
+      } catch (e) {
+        console.error(e);
+        alert("There was an unexpected error deleting your note");
+      }
+    }
+  }, []);
 
   if (error) {
     return (
