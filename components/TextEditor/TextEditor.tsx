@@ -1,13 +1,13 @@
+import { EditorComponent, Remirror, useRemirror } from "@remirror/react";
 import { ChangeEvent, useCallback, useState } from "react";
 import {
   BoldExtension,
-  ItalicExtension,
-  UnderlineExtension,
   HeadingExtension,
   HistoryExtension,
+  ItalicExtension,
   MarkdownExtension,
+  UnderlineExtension,
 } from "remirror/extensions";
-import { EditorComponent, Remirror, useRemirror } from "@remirror/react";
 
 import EditorToolbar from "./EditorToolbar";
 import SaveButton from "./SaveButton";

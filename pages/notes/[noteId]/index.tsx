@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 import Spinner from "@/components/Spinner";
-
 import type Note from "@/types/Note";
 
 const ViewNotePage = () => {

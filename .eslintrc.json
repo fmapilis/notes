@@ -1,3 +1,17 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"]
+  "env": {
+    "es6": true
+  },
+  "plugins": [
+    "simple-import-sort"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  }
 }

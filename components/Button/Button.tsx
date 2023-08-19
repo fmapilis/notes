@@ -1,6 +1,6 @@
-import { MouseEventHandler, ReactNode, useMemo } from "react";
-import Link from "next/link";
 import cx from "classnames";
+import Link from "next/link";
+import { MouseEventHandler, ReactNode, useMemo } from "react";
 
 import Spinner from "@/components/Spinner";
 

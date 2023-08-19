@@ -1,5 +1,6 @@
+import { signIn, useSession } from "next-auth/react";
+
 import Button from "@/components/Button";
-import { useSession, signIn } from "next-auth/react";
 
 const HomePage = () => {
   const { data: session } = useSession();

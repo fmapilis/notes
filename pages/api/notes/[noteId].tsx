@@ -1,8 +1,9 @@
+import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+
 import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Note from "@/types/Note";
 
 export default async function handler(
