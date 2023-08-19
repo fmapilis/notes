@@ -69,7 +69,7 @@ const ViewNotePage = () => {
         alert("There was an unexpected error deleting your note");
       }
     }
-  }, []);
+  }, [noteId, push]);
 
   if (error) {
     return (
@@ -123,8 +123,8 @@ const ViewNotePage = () => {
         {/*
         This method of rendering Markdown is potentially unsafe, as we are not
         sanitizing the content client-side or server-side. I've opted not to
-        do this for the sake of a demo, but ideally this should content should
-        be sanitized before being rendered.
+        do this for the sake of a demo, but ideally this content should be
+        sanitized before being rendered.
       */}
         <div
           className="prose"
