@@ -13,12 +13,17 @@ import EditorToolbar from "./EditorToolbar";
 import SaveButton from "./SaveButton";
 
 const TextEditor = ({
+  initialContent = "",
+  initialTitle = "",
   onSave,
 }: {
+  initialContent?: string;
+  initialTitle?: string;
   onSave: (title: string, content: string) => Promise<void>;
 }) => {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(initialTitle);
   const { manager, state } = useRemirror({
+    content: initialContent,
     extensions: () => [
       new BoldExtension(),
       new ItalicExtension(),

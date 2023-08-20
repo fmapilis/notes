@@ -86,7 +86,7 @@ async function updateNote(
   const client = await clientPromise;
   const notesCollection = client.db(process.env.DB_NAME).collection("notes");
 
-  const updatedNote = await notesCollection.updateOne(
+  const updatedNote = await notesCollection.findOneAndUpdate(
     { _id: note._id },
     {
       $set: {
