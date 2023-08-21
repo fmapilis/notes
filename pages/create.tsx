@@ -29,7 +29,7 @@ const CreateNotePage = () => {
           throw new Error(data.error);
         }
 
-        router.push(`/notes/${data._id}`);
+        router.push(`/notes/${data.insertedId}`);
       } catch (e) {
         alert("There was an unexpected issue saving your note");
         console.error(e);

@@ -11,4 +11,9 @@ type Note = {
   deleted_at: string | null;
 };
 
+export type SerializedNote = { _id: string; user_id: string } & Omit<
+  Note,
+  "_id" | "user_id"
+>;
+
 export default Note;

@@ -1,20 +1,23 @@
 import { marked } from "marked";
+import { ObjectId } from "mongodb";
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import Button from "@/components/Button";
-import Spinner from "@/components/Spinner";
+import { ServerError } from "@/lib/api/errors";
+import getEmailFromSession from "@/lib/api/getEmailFromSession";
+import getNote from "@/lib/api/getNote";
 import timeAgo from "@/lib/timeAgo";
-import type Note from "@/types/Note";
+import type { SerializedNote } from "@/types/Note";
 
-const ViewNotePage = () => {
+const ViewNotePage = ({
+  note,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useSession({ required: true });
 
-  const [note, setNote] = useState<Note | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const {
     push,
     query: { noteId },
@@ -23,29 +26,6 @@ const ViewNotePage = () => {
     () => note && timeAgo(note.last_updated_at),
     [note]
   );
-
-  useEffect(() => {
-    if (noteId) {
-      setLoading(true);
-      fetch(`/api/notes/${noteId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status === 404) {
-            throw new Error("Note not found");
-          } else if (data.error) {
-            throw new Error(data.error);
-          }
-
-          setNote(data);
-          setLoading(false);
-        })
-        .catch((e) => {
-          console.error(e);
-          setError(true);
-          setLoading(false);
-        });
-    }
-  }, [noteId]);
 
   const handleDelete = useCallback(async () => {
     if (noteId) {
@@ -70,28 +50,6 @@ const ViewNotePage = () => {
       }
     }
   }, [noteId, push]);
-
-  if (error) {
-    return (
-      <>
-        <Head>
-          <title>Note - Error</title>
-        </Head>
-        <div>Error loading note</div>
-      </>
-    );
-  }
-
-  if (loading || !note) {
-    return (
-      <>
-        <Head>
-          <title>Note - Loading...</title>
-        </Head>
-        <Spinner size={128} className="text-green m-auto" />
-      </>
-    );
-  }
 
   return (
     <>
@@ -135,6 +93,33 @@ const ViewNotePage = () => {
       </article>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<{
+  note: SerializedNote;
+}> = async ({ req, res, query }) => {
+  try {
+    const noteObjectId = new ObjectId(query.noteId as string);
+    const email = await getEmailFromSession(req, res);
+
+    // ObjectID's from MongoDB can't be serialized, so were convert
+    // them to strings before returning props to the page
+    const { _id, user_id, ...restNote } = await getNote(email, noteObjectId);
+    return {
+      props: {
+        note: { _id: _id.toString(), user_id: user_id.toString(), ...restNote },
+      },
+    };
+  } catch (e: any) {
+    if (e instanceof ServerError && e.statusCode === 404) {
+      return {
+        notFound: true,
+      };
+    }
+
+    // Re-throw error to show the `/pages/500.tsx` page
+    throw new Error(e.message || "Internal Server Error");
+  }
 };
 
 export default ViewNotePage;
