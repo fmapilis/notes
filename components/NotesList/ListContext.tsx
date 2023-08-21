@@ -4,33 +4,33 @@ import { SerializedNote } from "@/types/Note";
 
 export const PAGE_SIZE = 10;
 
-type SetError = {
+export type SetErrorAction = {
   type: "setError";
 };
 
-type SetLoadingAction = {
+export type SetLoadingAction = {
   type: "setLoading";
   loading: boolean;
 };
 
-type SetNotesAction = {
+export type SetNotesAction = {
   type: "setNotes";
   notes: SerializedNote[];
   totalNotes: number;
 };
 
-type SetPageAction = {
+export type SetPageAction = {
   type: "setPage";
   nextPage: number;
 };
 
-type SetQueryAction = {
+export type SetQueryAction = {
   type: "setQuery";
   query: string;
 };
 
 type NotesAction =
-  | SetError
+  | SetErrorAction
   | SetLoadingAction
   | SetNotesAction
   | SetPageAction
