@@ -3,8 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import deleteNote from "@/lib/api/deleteNote";
 import { errorHandler, ServerError } from "@/lib/api/errors";
-import getEmailFromSession from "@/lib/api/getEmailFromSession";
 import getNote from "@/lib/api/getNote";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 import updateNote from "@/lib/api/updateNote";
 
 export default async function handler(
@@ -19,7 +19,7 @@ export default async function handler(
     }
 
     const noteObjectId = new ObjectId(req.query.noteId as string);
-    const email = await getEmailFromSession(req, res);
+    const { email } = await getUserFromSession(req, res);
 
     if (req.method === "GET") {
       const note = await getNote(email, noteObjectId);

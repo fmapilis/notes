@@ -8,7 +8,7 @@ import { useCallback, useMemo } from "react";
 
 import Button from "@/components/Button";
 import { ServerError } from "@/lib/api/errors";
-import getEmailFromSession from "@/lib/api/getEmailFromSession";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 import getNote from "@/lib/api/getNote";
 import timeAgo from "@/lib/timeAgo";
 import type { SerializedNote } from "@/types/Note";
@@ -104,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 
     const noteObjectId = new ObjectId(params.noteId as string);
-    const email = await getEmailFromSession(req, res);
+    const email = await getUserFromSession(req, res);
 
     // ObjectID's from MongoDB can't be serialized, so were convert
     // them to strings before returning props to the page

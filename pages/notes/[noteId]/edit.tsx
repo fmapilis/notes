@@ -7,8 +7,8 @@ import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 
 import { ServerError } from "@/lib/api/errors";
-import getEmailFromSession from "@/lib/api/getEmailFromSession";
 import getNote from "@/lib/api/getNote";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 import { SerializedNote } from "@/types/Note";
 
 const TextEditor = dynamic(() => import("@/components/TextEditor"), {
@@ -73,7 +73,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 
     const noteObjectId = new ObjectId(params.noteId as string);
-    const email = await getEmailFromSession(req, res);
+    const { email } = await getUserFromSession(req, res);
 
     // ObjectID's from MongoDB can't be serialized, so were convert
     // them to strings before returning props to the page

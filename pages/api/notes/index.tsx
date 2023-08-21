@@ -2,15 +2,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import createNote from "@/lib/api/createNote";
 import { errorHandler, ServerError } from "@/lib/api/errors";
-import getEmailFromSession from "@/lib/api/getEmailFromSession";
 import getNotes from "@/lib/api/getNotes";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const email = await getEmailFromSession(req, res);
+    const { email } = await getUserFromSession(req, res);
 
     if (req.method === "GET") {
       const page = parseInt(req.query.page as string) || 1;

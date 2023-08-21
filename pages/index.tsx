@@ -1,12 +1,12 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import Button from "@/components/Button";
 import NotesList from "@/components/NotesList";
 import { ServerError } from "@/lib/api/errors";
-import getEmailFromSession from "@/lib/api/getEmailFromSession";
 import getNotes from "@/lib/api/getNotes";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 import { SerializedNote } from "@/types/Note";
 
 const HomePage = ({
@@ -14,14 +14,14 @@ const HomePage = ({
   page,
   query,
   totalNotes,
+  userName,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data: session } = useSession();
   return (
     <>
       <Head>
         <title>Notes</title>
       </Head>
-      {!session ? (
+      {!userName ? (
         <div className="text-center">
           <p className="font-alt text-5xl mb-6">Looking for your notes?</p>
           <p className="text-xl mb-6">You&apos;ll need to sign in first</p>
@@ -32,7 +32,7 @@ const HomePage = ({
       ) : (
         <>
           <p className="font-alt text-5xl mb-10 text-center">
-            Welcome back, {session.user?.name}
+            Welcome back, {userName}
           </p>
 
           <NotesList
@@ -52,9 +52,10 @@ export const getServerSideProps: GetServerSideProps<{
   page: number;
   query: string;
   totalNotes: number;
+  userName?: string | null;
 }> = async ({ req, res, query }) => {
   try {
-    const email = await getEmailFromSession(req, res);
+    const { email, name } = await getUserFromSession(req, res);
 
     const page = parseInt((query.page as string) || "1", 10);
     const q = (query.q as string) || "";
@@ -75,6 +76,7 @@ export const getServerSideProps: GetServerSideProps<{
         page: page,
         query: q,
         totalNotes: total,
+        userName: name,
       },
     };
   } catch (e: any) {
@@ -86,6 +88,7 @@ export const getServerSideProps: GetServerSideProps<{
           page: 1,
           query: "",
           totalNotes: 0,
+          userName: null,
         },
       };
     }
