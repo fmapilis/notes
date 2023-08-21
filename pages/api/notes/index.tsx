@@ -13,11 +13,10 @@ export default async function handler(
     const email = await getEmailFromSession(req, res);
 
     if (req.method === "GET") {
-      const limit = parseInt(req.query.limit as string) || 10;
-      const skip = parseInt(req.query.skip as string) || 0;
+      const page = parseInt(req.query.page as string) || 1;
       const query = req.query.query as string | null;
 
-      const getAllResponse = await getNotes(email, limit, skip, query);
+      const getAllResponse = await getNotes(email, page, query);
       res.status(200).json(getAllResponse);
     } else if (req.method === "POST") {
       const { title, content } = req.body;

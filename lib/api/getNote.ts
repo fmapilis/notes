@@ -5,7 +5,10 @@ import getUser from "@/lib/api/getUser";
 import clientPromise from "@/lib/mongodb";
 import type Note from "@/types/Note";
 
-const getNotes = async (email: string, noteObjectId: ObjectId) => {
+const getNote = async (
+  email: string,
+  noteObjectId: ObjectId
+): Promise<Note> => {
   const client = await clientPromise;
   const user = await getUser(email);
 
@@ -24,4 +27,4 @@ const getNotes = async (email: string, noteObjectId: ObjectId) => {
   return note;
 };
 
-export default getNotes;
+export default getNote;

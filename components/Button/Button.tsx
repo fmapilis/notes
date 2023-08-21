@@ -12,6 +12,7 @@ const Button = ({
   loading,
   onClick,
   size = "large",
+  type = "button",
   variant = "primary",
 }: {
   children: ReactNode;
@@ -23,6 +24,7 @@ const Button = ({
     HTMLButtonElement | HTMLAnchorElement | HTMLDivElement
   >;
   size?: "large" | "small";
+  type?: "button" | "submit";
   variant?: "primary" | "secondary";
 }) => {
   const classes = useMemo(
@@ -32,7 +34,7 @@ const Button = ({
         {
           "px-12 py-2 text-lg border-4": size === "large",
           "px-6 py-1 text-base border-2": size === "small",
-          "bg-green text-white border-transparent": variant === "primary",
+          "bg-green text-white border-green": variant === "primary",
           "bg-white text-green border-green": variant === "secondary",
           "opacity-50 cursor-not-allowed": disabled,
         },
@@ -54,13 +56,14 @@ const Button = ({
     );
   }
 
-  const Element = onClick ? "button" : "div";
+  const Element = onClick || type === "submit" ? "button" : "div";
 
   return (
     <Element
       className={classes}
       onClick={onClick}
       disabled={disabled || loading}
+      type={type}
     >
       {children}
       {loading && <Spinner size={20} className="text-white ml-2" />}

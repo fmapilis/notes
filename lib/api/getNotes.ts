@@ -1,13 +1,14 @@
+import { PAGE_SIZE } from "@/components/NotesList/ListContext";
 import getUser from "@/lib/api/getUser";
 import escapeRegex from "@/lib/escapeRegex";
 import clientPromise from "@/lib/mongodb";
+import Note from "@/types/Note";
 
 const getNotes = async (
   email: string,
-  limit: number,
-  skip: number,
+  page: number,
   query?: string | null
-) => {
+): Promise<{ data: Note[]; total: number }> => {
   const client = await clientPromise;
   const user = await getUser(email);
   const notesCollection = client.db(process.env.DB_NAME).collection("notes");
@@ -32,8 +33,8 @@ const getNotes = async (
             {
               $sort: { last_updated_at: -1 },
             },
-            { $skip: skip },
-            { $limit: limit },
+            { $skip: (page - 1) * PAGE_SIZE },
+            { $limit: PAGE_SIZE },
           ],
           total: [{ $count: "count" }],
         },
