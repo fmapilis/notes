@@ -57,7 +57,7 @@ const ViewNotePage = ({
         <title>Note - {note.title}</title>
       </Head>
 
-      <div className="flex items-start justify-end">
+      <div className="flex items-start justify-end mb-4">
         <Button href={`/notes/${note._id}/edit`} size="small">
           Edit note
         </Button>
@@ -71,7 +71,7 @@ const ViewNotePage = ({
         </Button>
       </div>
 
-      <article>
+      <article className="break-words">
         <header className="mb-6">
           <h1 className="font-alt text-5xl">{note.title}</h1>
           {lastUpdatedAt && (
