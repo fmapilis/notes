@@ -52,7 +52,24 @@ describe("Button", () => {
     });
   });
 
-  describe("when href and onClick are not provided", () => {
+  describe("when type is submit", () => {
+    it("should render and pass accessibility testing", async () => {
+      const { container } = render(<Button type="submit">foo</Button>);
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it("should render children", () => {
+      const { getByText } = render(<Button type="submit">foo</Button>);
+      expect(getByText("foo")).toBeTruthy();
+    });
+
+    it("should render a button tag", () => {
+      const { getByRole } = render(<Button type="submit">foo</Button>);
+      expect(getByRole("button").tagName).toBe("BUTTON");
+    });
+  });
+
+  describe("when href and onClick are not provided and type is not submit", () => {
     it("should render and pass accessibility testing", async () => {
       const { container } = render(<Button>foo</Button>);
       expect(await axe(container)).toHaveNoViolations();
