@@ -39,7 +39,7 @@ const SaveButton = ({
       }
 
       if (trimmedContent.length < 20) {
-        validationErrors.push("Please enter some more content for your note");
+        validationErrors.push("Please enter at least 20 characters of content");
       } else if (trimmedContent.length > 300) {
         validationErrors.push(
           "Maximum note length is 300 characters, please shorten your note"
