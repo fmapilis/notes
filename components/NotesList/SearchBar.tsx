@@ -5,7 +5,8 @@ import Button from "@/components/Button";
 import ListContext from "./ListContext";
 
 const Searchbar = () => {
-  const { query, setQuery, fetchNotes } = useContext(ListContext);
+  const { query, setLastSearchQuery, setQuery, fetchNotes } =
+    useContext(ListContext);
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +20,9 @@ const Searchbar = () => {
       e.preventDefault();
 
       await fetchNotes({ nextQuery: query });
+      setLastSearchQuery(query);
     },
-    [fetchNotes, query]
+    [fetchNotes, setLastSearchQuery, query]
   );
 
   return (

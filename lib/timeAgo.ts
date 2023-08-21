@@ -8,7 +8,7 @@ const timeAgo = (date: string): string => {
 
   let relativeString: string;
 
-  const seconds = (new Date().getTime() - dateObj.getTime()) / 1000;
+  const seconds = Math.floor((new Date().getTime() - dateObj.getTime()) / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);

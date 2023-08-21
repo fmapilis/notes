@@ -1,6 +1,7 @@
 import {
   notesReducer,
   SetErrorAction,
+  SetLastSearchQueryAction,
   SetLoadingAction,
   SetNotesAction,
   SetPageAction,
@@ -14,6 +15,7 @@ const initialState = {
   totalNotes: 0,
   page: 1,
   query: "",
+  lastSearchQuery: "",
 };
 
 describe("notesReducer", () => {
@@ -30,6 +32,26 @@ describe("notesReducer", () => {
         totalNotes: 0,
         page: 1,
         query: "",
+        lastSearchQuery: "",
+      });
+    });
+  });
+
+  describe("when action type is setLastQuery", () => {
+    it("should set lastSearchQuery to the value of the action", () => {
+      const action: SetLastSearchQueryAction = {
+        type: "setLastSearchQuery",
+        query: "foo",
+      };
+
+      expect(notesReducer(initialState, action)).toEqual({
+        error: false,
+        loading: false,
+        notes: [],
+        totalNotes: 0,
+        page: 1,
+        query: "",
+        lastSearchQuery: "foo",
       });
     });
   });
@@ -48,6 +70,7 @@ describe("notesReducer", () => {
         totalNotes: 0,
         page: 1,
         query: "",
+        lastSearchQuery: "",
       });
     });
   });
@@ -79,6 +102,7 @@ describe("notesReducer", () => {
         totalNotes: 1,
         page: 1,
         query: "",
+        lastSearchQuery: "",
       });
     });
   });
@@ -97,6 +121,26 @@ describe("notesReducer", () => {
         totalNotes: 0,
         page: 2,
         query: "",
+        lastSearchQuery: "",
+      });
+    });
+  });
+
+  describe("when action type is setQuery", () => {
+    it("should set query to the value of the action", () => {
+      const action: SetQueryAction = {
+        type: "setQuery",
+        query: "foo",
+      };
+
+      expect(notesReducer(initialState, action)).toEqual({
+        error: false,
+        loading: false,
+        notes: [],
+        totalNotes: 0,
+        page: 1,
+        query: "foo",
+        lastSearchQuery: "",
       });
     });
   });

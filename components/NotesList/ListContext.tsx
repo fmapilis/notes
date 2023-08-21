@@ -8,6 +8,11 @@ export type SetErrorAction = {
   type: "setError";
 };
 
+export type SetLastSearchQueryAction = {
+  type: "setLastSearchQuery";
+  query: string;
+};
+
 export type SetLoadingAction = {
   type: "setLoading";
   loading: boolean;
@@ -31,6 +36,7 @@ export type SetQueryAction = {
 
 type NotesAction =
   | SetErrorAction
+  | SetLastSearchQueryAction
   | SetLoadingAction
   | SetNotesAction
   | SetPageAction
@@ -43,12 +49,16 @@ type NotesState = {
   totalNotes: number;
   page: number;
   query: string;
+  lastSearchQuery: string;
 };
 
 export const notesReducer = (state: NotesState, action: NotesAction) => {
   switch (action.type) {
     case "setError":
       return { ...state, error: true };
+
+    case "setLastSearchQuery":
+      return { ...state, lastSearchQuery: action.query };
 
     case "setLoading":
       return { ...state, loading: action.loading };
@@ -79,6 +89,7 @@ export const notesReducer = (state: NotesState, action: NotesAction) => {
 };
 
 type ContextValues = NotesState & {
+  setLastSearchQuery: (query: string) => void;
   setLoading: (loading: boolean) => void;
   setPage: (nextPage: number) => void;
   setQuery: (query: string) => void;
@@ -98,6 +109,8 @@ const defaultValues = {
   notes: [],
   page: 1,
   query: "",
+  lastSearchQuery: "",
+  setLastSearchQuery: () => {},
   setLoading: () => {},
   setPage: () => {},
   setQuery: () => {},

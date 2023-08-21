@@ -1,9 +1,9 @@
 import { useCallback, useReducer } from "react";
 
-import Button from "@/components/Button";
 import Spinner from "@/components/Spinner";
 import { SerializedNote } from "@/types/Note";
 
+import EmptyState from "./EmptyState";
 import ListContext, { notesReducer } from "./ListContext";
 import NoteCard from "./NoteCard";
 import Pagination from "./Pagination";
@@ -27,7 +27,15 @@ const NotesList = ({
     totalNotes: initialTotal,
     page: initialPage,
     query: initialQuery,
+    lastSearchQuery: initialQuery,
   });
+
+  const setLastSearchQuery = useCallback(
+    (query: string) => {
+      dispatch({ type: "setLastSearchQuery", query });
+    },
+    [dispatch]
+  );
 
   const setLoading = useCallback(
     (loading: boolean) => {
@@ -91,32 +99,35 @@ const NotesList = ({
     [dispatch]
   );
 
-  const { notes, loading } = notesState;
-
-  if (!notes.length) {
-    <>
-      <p className="text-xl mb-6">You don&apos;t have any saved notes yet</p>
-      <Button className="mx-auto" href="/create">
-        Create a new note
-      </Button>
-    </>;
-  }
+  const { notes, query, loading } = notesState;
 
   return (
     <ListContext.Provider
-      value={{ ...notesState, setLoading, setPage, setQuery, fetchNotes }}
+      value={{
+        ...notesState,
+        setLastSearchQuery,
+        setLoading,
+        setPage,
+        setQuery,
+        fetchNotes,
+      }}
     >
       <SearchBar />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 relative">
-        {notes.map((note) => (
-          <NoteCard key={note._id.toString()} note={note} />
-        ))}
-        {loading && (
-          <div className="absolute flex top-8 w-full">
-            <Spinner size={128} className="text-green m-auto" />
-          </div>
-        )}
-      </div>
+      {!!notes.length ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10 relative">
+          {notes.map((note) => (
+            <NoteCard key={note._id.toString()} note={note} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState />
+      )}
+      {loading && (
+        <div className="absolute flex top-8 w-full">
+          <Spinner size={128} className="text-green m-auto" />
+        </div>
+      )}
+
       <Pagination />
     </ListContext.Provider>
   );

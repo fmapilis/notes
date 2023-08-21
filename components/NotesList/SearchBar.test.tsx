@@ -11,7 +11,9 @@ const initialContextValue = {
   totalNotes: 0,
   page: 1,
   query: "",
+  lastSearchQuery: "",
   fetchNotes: jest.fn(),
+  setLastSearchQuery: jest.fn(),
   setPage: jest.fn(),
   setQuery: jest.fn(),
   setLoading: jest.fn(),
@@ -36,18 +38,19 @@ describe("SearchBar", () => {
     expect(getByPlaceholderText("Search for a note")).toBeTruthy();
   });
 
-  it("should call fetchNotes when submitting the form", () => {
+  it("should call fetchNotes and setLastSearchQuery when submitting the form", async () => {
     const fetchNotes = jest.fn();
-    const setQuery = jest.fn();
+    const setLastSearchQuery = jest.fn();
     const { getByPlaceholderText } = render(
       <ListContext.Provider
-        value={{ ...initialContextValue, fetchNotes, setQuery }}
+        value={{ ...initialContextValue, fetchNotes, setLastSearchQuery }}
       >
         <SearchBar />
       </ListContext.Provider>
     );
     getByPlaceholderText("Search for a note").closest("form")?.submit();
     expect(fetchNotes).toHaveBeenCalledWith({ nextQuery: "" });
+    await waitFor(() => expect(setLastSearchQuery).toHaveBeenCalledWith(""));
   });
 
   it("should update the query when typing", () => {
