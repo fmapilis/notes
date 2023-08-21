@@ -8,8 +8,8 @@ import { useCallback, useMemo } from "react";
 
 import Button from "@/components/Button";
 import { ServerError } from "@/lib/api/errors";
-import getUserFromSession from "@/lib/api/getUserFromSession";
 import getNote from "@/lib/api/getNote";
+import getUserFromSession from "@/lib/api/getUserFromSession";
 import timeAgo from "@/lib/timeAgo";
 import type { SerializedNote } from "@/types/Note";
 
