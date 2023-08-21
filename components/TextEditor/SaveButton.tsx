@@ -62,7 +62,7 @@ const SaveButton = ({
 
   return (
     <Button
-      className="mt-8 w-full md:w-fit"
+      className="mt-8 w-full md:w-fit justify-center"
       onClick={handleClick}
       loading={loading}
     >
