@@ -1,15 +1,19 @@
 import { ObjectId } from "mongodb";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 
-import TextEditor from "@/components/TextEditor";
 import { ServerError } from "@/lib/api/errors";
 import getEmailFromSession from "@/lib/api/getEmailFromSession";
 import getNote from "@/lib/api/getNote";
 import { SerializedNote } from "@/types/Note";
+
+const TextEditor = dynamic(() => import("@/components/TextEditor"), {
+  ssr: false,
+});
 
 const EditNotePage = ({
   note,
@@ -47,7 +51,7 @@ const EditNotePage = ({
   );
 
   return (
-    <>
+    <div className="h-[calc(100vh-var(--header-height)-4rem)]">
       <Head>
         <title>Edit - {note.title}</title>
       </Head>
@@ -56,7 +60,7 @@ const EditNotePage = ({
         initialTitle={note.title}
         initialContent={note.content}
       />
-    </>
+    </div>
   );
 };
 
