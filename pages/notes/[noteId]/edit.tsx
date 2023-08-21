@@ -62,9 +62,13 @@ const EditNotePage = ({
 
 export const getServerSideProps: GetServerSideProps<{
   note: SerializedNote;
-}> = async ({ req, res, query }) => {
+}> = async ({ req, res, params }) => {
   try {
-    const noteObjectId = new ObjectId(query.noteId as string);
+    if (!params?.noteId) {
+      throw new ServerError(400, "Invalid Note ID");
+    }
+
+    const noteObjectId = new ObjectId(params.noteId as string);
     const email = await getEmailFromSession(req, res);
 
     // ObjectID's from MongoDB can't be serialized, so were convert
