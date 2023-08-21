@@ -104,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<{
     }
 
     const noteObjectId = new ObjectId(params.noteId as string);
-    const email = await getUserFromSession(req, res);
+    const { email } = await getUserFromSession(req, res);
 
     // ObjectID's from MongoDB can't be serialized, so were convert
     // them to strings before returning props to the page
